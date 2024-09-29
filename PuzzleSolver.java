@@ -1,6 +1,9 @@
 package edu.iastate.cs472.proj1;
 
 import java.io.FileNotFoundException;
+import java.io.File;
+import java.sql.SQLOutput;
+import java.util.Scanner;
 
 /**
  *  
@@ -31,10 +34,41 @@ public class PuzzleSolver
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IllegalArgumentException
 	{	
-		// Read an initial board configuration from a file.  
+		// Read an initial board configuration from a file.a
+		int[][] initialBoard = new int[3][3];
 
-		// Call EightPuzzle.solve8puzzle() to solve the puzzle. 
-		
+		try {
+			File f = new File("8puzzle.txt");
+			Scanner scnr = new Scanner(f);
+			int row = 0;
+
+			while (scnr.hasNextLine()) {
+				String l = scnr.nextLine();
+				String[] rowArr = l.split(" ");
+
+				for (int i = 0; i < rowArr.length; i++) {
+					initialBoard[row][i] = Integer.parseInt(rowArr[i]);
+				}
+
+				++row;
+			}
+			scnr.close();
+		} catch(FileNotFoundException e) {
+			System.out.println("could not read file");
+			e.printStackTrace();
+		}
+
+		for (int r = 0; r < initialBoard.length; r++) {
+			for (int c = 0; c < initialBoard[r].length; c++) {
+				System.out.print(initialBoard[r][c] + " ");
+			}
+			System.out.println();
+		}
+
+		// Call EightPuzzle.solve8puzzle() to solve the puzzle.
+		State initialState = new State(initialBoard);
+
+//		EightPuzzle.solve8Puzzle(initialState);
 		// You may make it interactive by repeatedly accepting puzzle files and print out 
 		// solutions.  (No extra credit but good for debugging and for the user.)
 		String fileNames[] = new String[] {"8Puzzle.txt"};

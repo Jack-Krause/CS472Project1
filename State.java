@@ -60,7 +60,25 @@ public class State implements Cloneable, Comparable<State>
 	 */
     public State(int[][] board) throws IllegalArgumentException 
     {
-    	// TODO 
+    	// TODO
+		if (board.length != 3 || board[0].length != 3) {
+			throw new IllegalArgumentException("incorrect size");
+		}
+
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (board[r][c] < 0) {
+					throw new IllegalArgumentException("incorrect grid value");
+				}
+			}
+		}
+
+        this.previous = null;
+		this.next = null;
+		this.predecessor = null;
+		this.move = null;
+		this.numMoves = 0;
+		System.out.println("state created successfully");
 	}
     
     
