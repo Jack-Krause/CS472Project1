@@ -1,6 +1,8 @@
 package edu.iastate.cs472.proj1;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  *  
@@ -23,11 +25,11 @@ import java.io.FileNotFoundException;
  * The final configuration (i.e., the goal state) above is not explicitly represented as an object 
  * of the State class. 
  */
-
 public class State implements Cloneable, Comparable<State>
 {
 	public int[][] board; 		// configuration of tiles 
-	
+	private static final int[][] goalState = {{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
+
 	public State previous;    	// previous node on the OPEN/CLOSED list
 	public State next; 			// next node on the OPEN/CLOSED list
 	public State predecessor; 	// predecessor node on the path from the initial state 
@@ -73,6 +75,7 @@ public class State implements Cloneable, Comparable<State>
 			}
 		}
 
+		this.board = board;
         this.previous = null;
 		this.next = null;
 		this.predecessor = null;
@@ -98,7 +101,45 @@ public class State implements Cloneable, Comparable<State>
     public State (String inputFileName) throws FileNotFoundException, IllegalArgumentException
     {
     	
-    	// TODO 
+    	// TODO
+		int[][] initialBoard = new int[3][3];
+
+		try {
+			File f = new File(inputFileName);
+			Scanner scnr = new Scanner(f);
+			int row = 0;
+
+			while (scnr.hasNextLine()) {
+				String l = scnr.nextLine();
+				String[] rowArr = l.split(" ");
+
+				for (int i = 0; i < rowArr.length; i++) {
+					int cell = Integer.parseInt(rowArr[i]);
+
+					if (cell < 0 || cell > 8) {
+						throw new IllegalArgumentException("illegal inputs in the cell");
+					}
+
+					initialBoard[row][i] = Integer.parseInt(rowArr[i]);
+				}
+				++row;
+			}
+			scnr.close();
+
+			// Set attributes of state
+			this.board = initialBoard;
+			this.previous = null;
+			this.next = null;
+			this.predecessor = null;
+			this.move = null;
+			this.numMoves = 0;
+			System.out.println("state created successfully");
+
+		} catch(FileNotFoundException e) {
+			System.out.println("could not read file");
+			e.printStackTrace();
+		}
+
 	}
     
     
@@ -154,12 +195,19 @@ public class State implements Cloneable, Comparable<State>
      * 		8 0 4 
      * 		7 6 5 
      * 
-     * @return
+     * @return true if the current state is the goal state, false otherwise
      */
     public boolean isGoalState()
     {
-    	// TODO 
-    	return false; 
+    	// TODO
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (this.board[r][c] != goalState[r][c]) {
+					return false;
+				}
+			}
+		}
+    	return true;
     }
     
     

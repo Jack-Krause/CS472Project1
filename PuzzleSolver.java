@@ -37,36 +37,13 @@ public class PuzzleSolver
 		// Read an initial board configuration from a file.a
 		int[][] initialBoard = new int[3][3];
 
-		try {
-			File f = new File("8puzzle.txt");
-			Scanner scnr = new Scanner(f);
-			int row = 0;
-
-			while (scnr.hasNextLine()) {
-				String l = scnr.nextLine();
-				String[] rowArr = l.split(" ");
-
-				for (int i = 0; i < rowArr.length; i++) {
-					initialBoard[row][i] = Integer.parseInt(rowArr[i]);
-				}
-
-				++row;
-			}
-			scnr.close();
-		} catch(FileNotFoundException e) {
-			System.out.println("could not read file");
-			e.printStackTrace();
-		}
-
-		for (int r = 0; r < initialBoard.length; r++) {
-			for (int c = 0; c < initialBoard[r].length; c++) {
-				System.out.print(initialBoard[r][c] + " ");
-			}
-			System.out.println();
-		}
-
 		// Call EightPuzzle.solve8puzzle() to solve the puzzle.
-		State initialState = new State(initialBoard);
+		State initialState = new State("8puzzle.txt");
+		System.out.println("exp: false " + initialState.isGoalState());
+		int[][] testGoalArr = {{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
+		State testGoalState = new State(testGoalArr);
+		System.out.println("exp: true " + testGoalState.isGoalState());
+
 
 //		EightPuzzle.solve8Puzzle(initialState);
 		// You may make it interactive by repeatedly accepting puzzle files and print out 
