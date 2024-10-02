@@ -44,6 +44,12 @@ public class PuzzleSolver
 		State testGoalState = new State(testGoalArr);
 		System.out.println("exp: true " + testGoalState.isGoalState());
 
+		System.out.println("Goal board:");
+		testGoalState.toString();
+
+		System.out.println("board");
+		initialState.toString();
+
 
 //		EightPuzzle.solve8Puzzle(initialState);
 		// You may make it interactive by repeatedly accepting puzzle files and print out 

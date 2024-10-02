@@ -228,22 +228,38 @@ public class State implements Cloneable, Comparable<State>
     @Override 
     public String toString()
     {
-    	// TODO 
+		for (int r = 0; r < 3; r++) {
+			StringBuilder strB = new StringBuilder();
+
+			for (int c = 0; c < 3; c++) {
+				int cell = this.board[r][c];
+				strB.append(" ");
+
+				if (cell == 0) {
+					strB.append(" ");
+				}
+				else {
+					strB.append(cell);
+				}
+
+				strB.append(" ");
+			}
+
+			System.out.println(strB.toString());
+		}
     	return null; 
     }
     
     
     /**
      * Create a clone of this State object by copying over the board[][]. Set the links previous,
-     * next, and predecessor to null. 
-     * 
+     * next, and predecessor to null.
      * The method is called by SuccessorState(); 
      */
     @Override
     public Object clone()
     {
-    	// TODO 
-    	return null; 
+    	return new State(this.board);
     }
   
 
