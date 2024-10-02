@@ -259,6 +259,7 @@ public class State implements Cloneable, Comparable<State>
     @Override
     public Object clone()
     {
+		// call constructor - copies the board and sets everything else to defaults
     	return new State(this.board);
     }
   
@@ -270,8 +271,16 @@ public class State implements Cloneable, Comparable<State>
     @Override 
     public boolean equals(Object o)
     {
-    	// TODO 
-    	return false; 
+    	// TODO
+		o = (State)o;
+		for (int c = 0; c < 3; c++) {
+			for (int r = 0; r < 3; r++) {
+				if (this.board[r][c] != ((State) o).board[r][c]) {
+					return false;
+				}
+			}
+		}
+    	return true;
     }
         
     

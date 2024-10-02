@@ -39,16 +39,21 @@ public class PuzzleSolver
 
 		// Call EightPuzzle.solve8puzzle() to solve the puzzle.
 		State initialState = new State("8puzzle.txt");
-		System.out.println("exp: false " + initialState.isGoalState());
+		System.out.println("exp false, " + initialState.isGoalState());
+
 		int[][] testGoalArr = {{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
 		State testGoalState = new State(testGoalArr);
-		System.out.println("exp: true " + testGoalState.isGoalState());
+		System.out.println("exp true, " + testGoalState.isGoalState());
 
 		System.out.println("Goal board:");
 		testGoalState.toString();
 
 		System.out.println("board");
 		initialState.toString();
+
+		State copy = (State)initialState.clone();
+		System.out.println("exp true, " + initialState.equals(copy));
+		System.out.println("exp false, " + initialState.equals(testGoalState));
 
 
 //		EightPuzzle.solve8Puzzle(initialState);
