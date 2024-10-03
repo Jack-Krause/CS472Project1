@@ -56,6 +56,8 @@ public class PuzzleSolver
 		System.out.println("exp false, " + initialState.equals(testGoalState));
 
 
+
+
 //		EightPuzzle.solve8Puzzle(initialState);
 		// You may make it interactive by repeatedly accepting puzzle files and print out 
 		// solutions.  (No extra credit but good for debugging and for the user.)

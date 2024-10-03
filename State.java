@@ -341,8 +341,63 @@ public class State implements Cloneable, Comparable<State>
 	 */
 	private int computeManhattanDistance()
 	{
-		// TODO 
-		return 0; 
+		// TODO
+		if (this.ManhattanDistance > 0) return this.ManhattanDistance;
+		
+		int dist = 0;
+
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				int i = this.board[r][c];
+
+				int x1 = 0;
+				int x2 = 0;
+
+				switch(i) {
+					case 0:
+						x1 = 1;
+						x2 = 1;
+						break;
+					case 1:
+						x1 = 0;
+						x2 = 0;
+						break;
+					case 2:
+						x1 = 0;
+						x2 = 1;
+						break;
+					case 3:
+						x1 = 0;
+						x2 = 2;
+						break;
+					case 4:
+						x1 = 1;
+						x2 = 2;
+						break;
+					case 5:
+						x1 = 2;
+						x2 = 2;
+						break;
+					case 6:
+						x1 = 2;
+						x2 = 1;
+						break;
+					case 7:
+						x1 = 2;
+						x2 = 0;
+						break;
+					case 8:
+						x1 = 1;
+						x2 = 0;
+						break;
+				}
+
+				dist += (Math.abs(x1 - r) + Math.abs(x2 - c));
+			}
+		}
+		return dist;
+
+		// {{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
 	}
 	
 	
