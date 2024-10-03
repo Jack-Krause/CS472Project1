@@ -167,8 +167,53 @@ public class State implements Cloneable, Comparable<State>
      */                                  
     public State successorState(Move m) throws IllegalArgumentException 
     {
-    	// TODO 
+    	// TODO
+		int emptyRow;
+		int emptyColumn;
+
+		// find location of the empty square
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (this.board[r][c] == 0) {
+					emptyRow = r;
+					emptyColumn = c;
+				}
+			}
+		}
+
+
+
     	return null; 
+    }
+
+
+
+	/**
+	 * @throws IllegalArgumentException if LEFT when the empty square is in the right column, or
+	 *                                  if RIGHT when the empty square is in the left column, or
+	 *                                  if UP when the empty square is in the bottom row, or
+	 *                                  if DOWN when the empty square is in the top row, or
+	 *                                  if DBL_LEFT when the empty square is not in the left column, or
+	 *                                  if DBL_RIGHT when the empty square is not in the right column, or
+	 *                                  if DBL_UP when the empty square is not in the top row, or
+	 *                                  if DBL_DOWN when the empty square is not in the bottom row.
+	 */
+	public boolean isMoveValid(Move m, int r, int c) {
+        return (m != Move.LEFT || c != 2)
+                &&
+                (m != Move.RIGHT || c != 0)
+                &&
+                (m != Move.UP || r != 2)
+                &&
+                (m != Move.DOWN || r != 0)
+                &&
+                (m != Move.DBL_LEFT || r == 0)
+                &&
+                (m != Move.DBL_RIGHT || r == 2)
+                &&
+                (m != Move.DBL_UP || r == 0)
+                &&
+                (m != Move.DBL_DOWN || r == 2);
     }
     
         
