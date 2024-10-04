@@ -55,6 +55,9 @@ public class PuzzleSolver
 		System.out.println("exp true, " + initialState.equals(copy));
 		System.out.println("exp false, " + initialState.equals(testGoalState));
 
+		System.out.println("checking number of inversions:");
+		System.out.println("exp inv for goal is 7, " + testGoalState.inversions());
+
 
 
 

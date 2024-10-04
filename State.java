@@ -231,6 +231,49 @@ public class State implements Cloneable, Comparable<State>
     	// TODO 
     	return false; 
     }
+
+	/**
+	 * returns the number of inversions in the current board
+	 * inversion if a larger number is above or to the right of a smaller number
+	 * note: the puzzle is solvable iff there are an even number of inversions
+	 * @return the count of inversions in the board
+	 */
+    public int inversions() {
+		System.out.println("counting inversions for the board:");
+		this.toString();
+		int inversionCount = 0;
+
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				int current = this.board[r][c];
+
+				if (current == 0) break;
+
+				// check for larger numbers to the right of smaller ones
+				if (c < 2) {
+					int right = this.board[r][c + 1];
+					if (current > right && right != 0) inversionCount++;
+					if (current > right && right != 0) {
+						System.out.printf("INVERSION: (left: %d, right: %d) %n", current, right);
+					}
+				}
+
+				// check for larger numbers above smaller ones
+				if (r < 2) {
+					int below = this.board[r + 1][c];
+					if (current > below && below != 0) inversionCount++;
+					if (current > below && below != 0) {
+						System.out.printf("INVERSION: (above: %d, below: %d) %n", current, below);
+					}
+				}
+
+
+			}
+		}
+
+
+		return inversionCount;
+	}
     
     
     /**
