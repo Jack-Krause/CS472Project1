@@ -243,34 +243,31 @@ public class State implements Cloneable, Comparable<State>
 		this.toString();
 		int inversionCount = 0;
 
+		// get board in a 1-d array and just move
+		int[] flattenedBoard = new int[9];
+
+		int idx = 0;
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
-				int current = this.board[r][c];
+				int cell = this.board[r][c];
 
-				if (current == 0) break;
-
-				// check for larger numbers to the right of smaller ones
-				if (c < 2) {
-					int right = this.board[r][c + 1];
-					if (current > right && right != 0) inversionCount++;
-					if (current > right && right != 0) {
-						System.out.printf("INVERSION: (left: %d, right: %d) %n", current, right);
-					}
-				}
-
-				// check for larger numbers above smaller ones
-				if (r < 2) {
-					int below = this.board[r + 1][c];
-					if (current > below && below != 0) inversionCount++;
-					if (current > below && below != 0) {
-						System.out.printf("INVERSION: (above: %d, below: %d) %n", current, below);
-					}
-				}
-
-
+				flattenedBoard[idx] = cell;
+				idx++;
 			}
 		}
 
+		for (int i = 0; i < 9; i++) {
+			int cell = flattenedBoard[i];
+
+			for (int j = i + 1; j < 9; j++) {
+				int jCell = flattenedBoard[j];
+
+				if (jCell != 0 && cell > jCell) inversionCount++;
+				if (jCell != 0 && cell > jCell) {
+					System.out.printf("inv: (%d %d) %n", cell, jCell);
+				}
+			}
+		}
 
 		return inversionCount;
 	}
