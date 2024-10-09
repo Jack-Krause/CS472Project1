@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  *  
- * @author
+ * @author Jack Krause
  *
  */
 
@@ -166,10 +166,11 @@ public class State implements Cloneable, Comparable<State>
      */                                  
     public State successorState(Move m) throws IllegalArgumentException 
     {
-    	// TODO
-		int emptyRow;
-		int emptyColumn;
+		int emptyRow = 0;
+		int emptyColumn = 0;
 
+
+		//TODO
 		// find location of the empty square
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
@@ -180,10 +181,55 @@ public class State implements Cloneable, Comparable<State>
 			}
 		}
 
+		if (! isMoveValid(m, emptyRow, emptyColumn)) throw new IllegalArgumentException("invalid move");
+
 
 
     	return null; 
     }
+
+	public int[] performMove(Move m, int r, int c) throws IllegalArgumentException {
+		int[] emptyCell = {-1, -1};
+		if (this.board[r][c] != 0)  {
+			throw new IllegalArgumentException("move performed at non-empty cell");
+		}
+
+		switch(m) {
+			case Move.UP:
+				emptyCell[0] = r+1;
+				emptyCell[1] = c;
+				break;
+			case Move.DOWN:
+				emptyCell[0] = r-1;
+				emptyCell[1] = c;
+				break;
+			case Move.LEFT:
+				emptyCell[0] = r;
+				emptyCell[1] = c+1;
+				break;
+			case Move.RIGHT:
+				emptyCell[0] = r;
+				emptyCell[1] = c-1;
+				break;
+			case Move.DBL_UP:
+				emptyCell[0] = r+1;
+				emptyCell[1] = c;
+				this.board[r][c] = this.board[r+1][c];
+				this.board[r+1][c] = 0;
+				performMove(Move.UP, emptyCell[0], emptyCell[1]);
+				break;
+			case Move.DBL_DOWN:
+				emptyCell[0] = r-1;
+				emptyCell[1] = c;
+				this.board[r][c] = this.board[r-1][c];
+				this.board[r-1][c] = 0;
+				performMove(Move.DOWN, emptyCell[0], emptyCell[1]);
+				break;
+
+		}
+
+		return emptyCell;
+	}
 
 
 
@@ -282,7 +328,6 @@ public class State implements Cloneable, Comparable<State>
      */
     public boolean isGoalState()
     {
-    	// TODO
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
 				if (this.board[r][c] != goalState[r][c]) {
@@ -354,7 +399,6 @@ public class State implements Cloneable, Comparable<State>
     @Override 
     public boolean equals(Object o)
     {
-    	// TODO
 		o = (State)o;
 		for (int c = 0; c < 3; c++) {
 			for (int r = 0; r < 3; r++) {
