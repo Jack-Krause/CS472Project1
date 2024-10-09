@@ -183,6 +183,13 @@ public class State implements Cloneable, Comparable<State>
 
 		if (! isMoveValid(m, emptyRow, emptyColumn)) throw new IllegalArgumentException("invalid move");
 
+		System.out.println("before move " + m);
+		this.toString();
+
+		performMove(m, emptyRow, emptyColumn);
+
+		System.out.println("board after move " + m);
+		this.toString();
 
 
     	return null; 
@@ -195,30 +202,30 @@ public class State implements Cloneable, Comparable<State>
 		}
 
 		switch(m) {
-			case Move.UP:
+			case UP:
 				emptyCell[0] = r+1;
 				emptyCell[1] = c;
 				break;
-			case Move.DOWN:
+			case DOWN:
 				emptyCell[0] = r-1;
 				emptyCell[1] = c;
 				break;
-			case Move.LEFT:
+			case LEFT:
 				emptyCell[0] = r;
 				emptyCell[1] = c+1;
 				break;
-			case Move.RIGHT:
+			case RIGHT:
 				emptyCell[0] = r;
 				emptyCell[1] = c-1;
 				break;
-			case Move.DBL_UP:
+			case DBL_UP:
 				emptyCell[0] = r+1;
 				emptyCell[1] = c;
 				this.board[r][c] = this.board[r+1][c];
 				this.board[r+1][c] = 0;
 				performMove(Move.UP, emptyCell[0], emptyCell[1]);
 				break;
-			case Move.DBL_DOWN:
+			case DBL_DOWN:
 				emptyCell[0] = r-1;
 				emptyCell[1] = c;
 				this.board[r][c] = this.board[r-1][c];
@@ -227,6 +234,9 @@ public class State implements Cloneable, Comparable<State>
 				break;
 
 		}
+
+		this.board[r][c] = this.board[ emptyCell[0] ][ emptyCell[1] ];
+		this.board[ emptyCell[0] ][ emptyCell[1] ] = 0;
 
 		return emptyCell;
 	}
