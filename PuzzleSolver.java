@@ -17,10 +17,12 @@ public class PuzzleSolver
 	public static void main(String[] args) {
 		int[][] s = {{2, 0, 3}, {1, 8, 4}, {7, 6, 5}};
 		State testState = new State(s);
+		System.out.println(testState.solvable());
 
 		testState.successorState(Move.RIGHT);
 		testState.successorState(Move.UP);
 		testState.successorState(Move.LEFT);
+		System.out.println("GOAL " + testState.isGoalState());
 
 	}
 

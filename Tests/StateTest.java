@@ -28,6 +28,11 @@ class StateTest {
     }
 
     @Test
+    void solvableGoal() {
+        assertTrue(goalState.solvable());
+    }
+
+    @Test
     @Disabled
     void solvable() {
 
@@ -55,6 +60,24 @@ class StateTest {
         assertEquals(10, s2.inversions());
         assertEquals(11, s3.inversions());
         assertEquals(4, s4.inversions());
+    }
+
+    @Test
+    void solvableFull() {
+        int[][] test1 = {{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
+        int[][] test2 = {{1, 8, 2}, {0, 4, 3}, {7, 6, 5}};
+        int[][] test3 = {{8, 1, 2}, {0, 4, 3}, {7, 6, 5}};
+        int[][] test4 = {{1, 2, 3}, {4, 0, 6}, {8, 7, 5}};
+
+        State s1 = new State(test1);
+        State s2 = new State(test2);
+        State s3 = new State(test3);
+        State s4 = new State(test4);
+
+        assertFalse(s1.solvable());
+        assertFalse(s2.solvable());
+        assertTrue(s3.solvable());
+        assertFalse(s4.solvable());
     }
 
     @Test

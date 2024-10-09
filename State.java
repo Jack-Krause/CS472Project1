@@ -81,7 +81,6 @@ public class State implements Cloneable, Comparable<State>
 		this.predecessor = null;
 		this.move = null;
 		this.numMoves = 0;
-		System.out.println("state created successfully");
 	}
     
     
@@ -132,7 +131,6 @@ public class State implements Cloneable, Comparable<State>
 			this.predecessor = null;
 			this.move = null;
 			this.numMoves = 0;
-			System.out.println("state created successfully");
 
 		} catch(FileNotFoundException e) {
 			System.out.println("could not read file");
@@ -275,25 +273,22 @@ public class State implements Cloneable, Comparable<State>
     /**
      * Determines if the board configuration in this state can be rearranged into the goal configuration. 
      * According to the PowerPoint notes that introduce the 8-puzzle, we check if this state has an odd number 
-     * of inversions. 
-     */
-    /**
-     * 
-     * @return true if the puzzle starting in this state can be rearranged into the goal state.
+     * of inversions.
+	 * solvable iff initial state has an odd number of inversions
      */
     public boolean solvable()
     {
-		return (this.inversions() % 2 == 0);
+		System.out.println("inversions " + this.inversions());
+		return (this.inversions() % 2 == 1);
     }
 
 	/**
 	 * returns the number of inversions in the current board
 	 * inversion if a larger number is above or to the right of a smaller number
-	 * note: the puzzle is solvable iff there are an even number of inversions
+	 * note: the puzzle is solvable iff there are an odd number of inversions
 	 * @return the count of inversions in the board
 	 */
     public int inversions() {
-		System.out.println("counting inversions for the board:");
 		this.toString();
 		int inversionCount = 0;
 
@@ -318,7 +313,7 @@ public class State implements Cloneable, Comparable<State>
 
 				if (jCell != 0 && cell > jCell) inversionCount++;
 				if (jCell != 0 && cell > jCell) {
-					System.out.printf("inv: (%d %d) %n", cell, jCell);
+					System.out.printf("INVERSION %d: (%d, %d)%n", inversionCount, cell, jCell);
 				}
 			}
 		}
