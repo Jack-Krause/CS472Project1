@@ -101,7 +101,6 @@ public class State implements Cloneable, Comparable<State>
     public State (String inputFileName) throws FileNotFoundException, IllegalArgumentException
     {
     	
-    	// TODO
 		int[][] initialBoard = new int[3][3];
 
 		try {
@@ -228,8 +227,7 @@ public class State implements Cloneable, Comparable<State>
      */
     public boolean solvable()
     {
-    	// TODO 
-    	return false; 
+		return (this.inversions() % 2 == 0);
     }
 
 	/**
