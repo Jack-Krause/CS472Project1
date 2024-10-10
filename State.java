@@ -144,7 +144,6 @@ public class State implements Cloneable, Comparable<State>
      * Generate the successor state resulting from a given move.  Throw an exception if the move 
      * cannot be executed.  Besides setting the array board[][] properly, you also need to do the 
      * following:
-     * 
      *     a) set the predecessor of the successor state to this state;
      *     b) set the private instance variable move of the successor state to the parameter m; 
      *     c) Set the links next and previous to null;  
@@ -167,7 +166,6 @@ public class State implements Cloneable, Comparable<State>
 		int emptyRow = -1;
 		int emptyColumn = -1;
 
-
 		//TODO
 		// find location of the empty square
 		for (int r = 0; r < 3; r++) {
@@ -183,17 +181,19 @@ public class State implements Cloneable, Comparable<State>
 		if (! isMoveValid(m, emptyRow, emptyColumn)) throw new IllegalArgumentException("invalid move");
 
 		State s = new State(this.board);
+		s.move = m;
+		s.predecessor = this;
+		s.next = null;
+		s.previous = null;
+		s.numMoves = this.numMoves + 1;
 
 		System.out.println("before move " + m);
 		s.toString();
 
 		s.performMove(m, emptyRow, emptyColumn);
-		s.move = m;
-		s.predecessor = this;
 
 		System.out.println("board after move " + m);
 		s.toString();
-
 
     	return s;
     }
@@ -346,15 +346,7 @@ public class State implements Cloneable, Comparable<State>
      */
     public boolean isGoalState()
     {
-		for (int r = 0; r < 3; r++) {
-			for (int c = 0; c < 3; c++) {
-				if (this.board[r][c] != goalState[r][c]) {
-					return false;
-				}
-			}
-		}
-
-    	return true;
+    	return this.computeNumMismatchedTiles() == 0;
     }
     
     
@@ -407,7 +399,9 @@ public class State implements Cloneable, Comparable<State>
     public Object clone()
     {
 		// call constructor - copies the board and sets everything else to defaults
-    	return new State(this.board);
+		State s = new State(this.board);
+		s.numMoves = this.numMoves;
+		return s;
     }
   
 
@@ -433,8 +427,7 @@ public class State implements Cloneable, Comparable<State>
     /**
      * Evaluate the cost of this state as the sum of the number of moves from the initial state and 
      * the estimated number of moves to the goal state using the heuristic stored in the instance 
-     * variable heu. 
-     * 
+     * variable heu.
      * If heu == TileMismatch, add up numMoves and the return values from computeNumMismatchedTiles().
      * If heu == MahattanDist, add up numMoves and the return values of computeMahattanDistance(). 
      * If heu == DoubleMoveHeuristic, add up numMoves and the return value of computeNumSingleDoubleMoves(). 
@@ -444,7 +437,13 @@ public class State implements Cloneable, Comparable<State>
      */
     public int cost() throws IllegalArgumentException
     {
-    	// TODO 
+    	// TODO
+		if (heu == Heuristic.TileMismatch) {
+
+		}
+		if (heu == Heuristic.ManhattanDist) {
+
+		}
     	return 0; 
     }
 
@@ -474,8 +473,19 @@ public class State implements Cloneable, Comparable<State>
      */
 	private int computeNumMismatchedTiles()
 	{
-		// TODO 
-		return 0; 
+		if (this.numMismatchedTiles > 0) return this.numMismatchedTiles;
+
+		this.numMismatchedTiles = 0;
+
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (this.board[r][c] != goalState[r][c]) {
+					this.numMismatchedTiles ++;
+				}
+			}
+		}
+
+		return this.numMismatchedTiles;
 	}
 
 	
