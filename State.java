@@ -567,13 +567,12 @@ public class State implements Cloneable, Comparable<State>
 				if (this.board[i][j] == 0) {
 					emptyCell[0] = i;
 					emptyCell[1] = j;
-					break;
 				}
 			}
 		}
 
-		if (emptyCell[0] > 0 && emptyCell[1] > 0) {
-			return -1;
+		if (emptyCell[0] < 0 && emptyCell[1] < 0) {
+			return Integer.MAX_VALUE;
 		}
 
 		int h = this.computeManhattanDistance();
@@ -586,22 +585,19 @@ public class State implements Cloneable, Comparable<State>
 		int s = 0;
 
 		if (this.isMoveValid(Move.DBL_UP, r, c)) {
-			if (! this.isGoalCell(r-1, c)) s--;
+			if (! this.isGoalCell(r-1, c)) s++;
 		}
 		if (this.isMoveValid(Move.DBL_DOWN, r, c)) {
-			if (! this.isGoalCell(r+1, c)) s--;
+			if (! this.isGoalCell(r+1, c)) s++;
 		}
 		if (this.isMoveValid(Move.DBL_LEFT, r, c)) {
-			if (! this.isGoalCell(r, c+1)) s--;
+			if (! this.isGoalCell(r, c+1)) s++;
 		}
 		if (this.isMoveValid(Move.DBL_RIGHT, r, c)) {
-			if (! this.isGoalCell(r, c-1)) s--;
+			if (! this.isGoalCell(r, c-1)) s++;
 		}
 
-
-
 		return s;
-
 	}
 
 	private boolean isGoalCell(int r, int c) {
