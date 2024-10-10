@@ -437,14 +437,10 @@ public class State implements Cloneable, Comparable<State>
      */
     public int cost() throws IllegalArgumentException
     {
-    	// TODO
-		if (heu == Heuristic.TileMismatch) {
-
-		}
-		if (heu == Heuristic.ManhattanDist) {
-
-		}
-    	return 0; 
+		if (heu == Heuristic.TileMismatch) return this.numMoves + computeNumMismatchedTiles();
+		if (heu == Heuristic.ManhattanDist) return this.numMoves + computeManhattanDistance();
+		if (heu == Heuristic.DoubleMoveHeuristic) return this.numMoves + this.computeNumSingleDoubleMoves();
+    	throw new IllegalArgumentException("hue is not properly set");
     }
 
     
@@ -551,9 +547,8 @@ public class State implements Cloneable, Comparable<State>
 				dist += (Math.abs(x1 - r) + Math.abs(x2 - c));
 			}
 		}
-		return dist;
 
-		// {{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
+		return dist;
 	}
 	
 	
@@ -564,9 +559,14 @@ public class State implements Cloneable, Comparable<State>
 	 * @return the value of the private variable numSingleDoubleMoves that bounds from below the number of moves, 
 	 *         single or double, which will take this state to the goal state.
 	 */
-	private int computeNumSingleDoubleMoves()
-	{
-		// TODO 
-		return 0; 
+	private int computeNumSingleDoubleMoves() {
+		//TODO
+		if (this.numSingleDoubleMoves < 0) {
+			// idea: use manhattan distance and account for distances that can be covered in two moves
+
+		}
+
+		return 0;
 	}
+
 }
