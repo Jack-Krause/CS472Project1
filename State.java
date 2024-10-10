@@ -560,37 +560,52 @@ public class State implements Cloneable, Comparable<State>
 	 */
 	private int computeNumSingleDoubleMoves() {
 		//TODO
-		if (this.numSingleDoubleMoves < 0) {
-			this.numSingleDoubleMoves = 0;
-			int h = this.computeManhattanDistance();
+		int[] emptyCell = {-1, -1};
 
-			// idea: use manhattan distance and account for distances that can be covered in two moves
-			for (int r = 0; r < 3; r++) {
-				for (int c = 0; c < 3; c++) {
-					int cell = this.board[r][c];
-
-					if (cell == goalState[r][c]) {
-						continue;
-					}
-
-					if (r == 2 && (this.board[r-1][c] != goalState[r-1][c])) {
-						if (this.isMoveValid(Move.DBL_UP, r, c));
-					}
-
-					if (r < 2 && (this.board[r+1][c] != goalState[r+1][c])) {
-						if (this.isMoveValid(Move.DBL_DOWN, r, c)) h--;
-					}
-
-					if (c < 2 && (this.board[r][c+1] != goalState[r][c+1])) {
-						if (this.isMoveValid(Move.DBL_LEFT, r, c)) h--;
-					}
-
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (this.board[i][j] == 0) {
+					emptyCell[0] = i;
+					emptyCell[1] = j;
+					break;
 				}
 			}
-
 		}
 
-		return 0;
+		if (emptyCell[0] > 0 && emptyCell[1] > 0) {
+			return -1;
+		}
+
+		int h = this.computeManhattanDistance();
+		h -= this.checkEmptySpace(emptyCell[0], emptyCell[1]);
+
+		return h;
+	}
+
+	private int checkEmptySpace(int r, int c) {
+		int s = 0;
+
+		if (this.isMoveValid(Move.DBL_UP, r, c)) {
+			if (! this.isGoalCell(r-1, c)) s--;
+		}
+		if (this.isMoveValid(Move.DBL_DOWN, r, c)) {
+			if (! this.isGoalCell(r+1, c)) s--;
+		}
+		if (this.isMoveValid(Move.DBL_LEFT, r, c)) {
+			if (! this.isGoalCell(r, c+1)) s--;
+		}
+		if (this.isMoveValid(Move.DBL_RIGHT, r, c)) {
+			if (! this.isGoalCell(r, c-1)) s--;
+		}
+
+
+
+		return s;
+
+	}
+
+	private boolean isGoalCell(int r, int c) {
+		return this.board[r][c] == goalState[r][c];
 	}
 
 
