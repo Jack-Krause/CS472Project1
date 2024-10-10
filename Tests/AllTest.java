@@ -23,4 +23,17 @@ class AllTest {
         System.out.println("GOAL " + testState.isGoalState());
     }
 
+    @Test
+    void dblLeftTest() {
+        int[][] s = {{1, 2, 3}, {0, 4, 5}, {6, 7, 8}};
+        State testState = new State(s);
+
+        int[][] dblLeft = {{1, 2, 3}, {4, 5, 0}, {6, 7, 8}};
+        State expState = new State(dblLeft);
+
+        State sActual = testState.successorState(Move.DBL_LEFT);
+
+        assertTrue(sActual.equals(expState));
+    }
+
 }

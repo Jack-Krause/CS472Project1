@@ -164,8 +164,8 @@ public class State implements Cloneable, Comparable<State>
      */                                  
     public State successorState(Move m) throws IllegalArgumentException 
     {
-		int emptyRow = 0;
-		int emptyColumn = 0;
+		int emptyRow = -1;
+		int emptyColumn = -1;
 
 
 		//TODO
@@ -179,18 +179,23 @@ public class State implements Cloneable, Comparable<State>
 			}
 		}
 
+		if (emptyRow == -1 || emptyColumn == -1) throw new IllegalArgumentException("error: no empty space found");
 		if (! isMoveValid(m, emptyRow, emptyColumn)) throw new IllegalArgumentException("invalid move");
 
-		System.out.println("before move " + m);
-		this.toString();
+		State s = new State(this.board);
 
-		performMove(m, emptyRow, emptyColumn);
+		System.out.println("before move " + m);
+		s.toString();
+
+		s.performMove(m, emptyRow, emptyColumn);
+		s.move = m;
+		s.predecessor = this;
 
 		System.out.println("board after move " + m);
-		this.toString();
+		s.toString();
 
 
-    	return null; 
+    	return s;
     }
 
 	public int[] performMove(Move m, int r, int c) throws IllegalArgumentException {
@@ -260,9 +265,9 @@ public class State implements Cloneable, Comparable<State>
                 &&
                 (m != Move.DOWN || r != 0)
                 &&
-                (m != Move.DBL_LEFT || r == 0)
+                (m != Move.DBL_LEFT || c == 0)
                 &&
-                (m != Move.DBL_RIGHT || r == 2)
+                (m != Move.DBL_RIGHT || c == 2)
                 &&
                 (m != Move.DBL_UP || r == 0)
                 &&
@@ -289,7 +294,6 @@ public class State implements Cloneable, Comparable<State>
 	 * @return the count of inversions in the board
 	 */
     public int inversions() {
-		this.toString();
 		int inversionCount = 0;
 
 		// get board in a 1-d array and just move
@@ -312,9 +316,6 @@ public class State implements Cloneable, Comparable<State>
 				int jCell = flattenedBoard[j];
 
 				if (jCell != 0 && cell > jCell) inversionCount++;
-				if (jCell != 0 && cell > jCell) {
-					System.out.printf("INVERSION %d: (%d, %d)%n", inversionCount, cell, jCell);
-				}
 			}
 		}
 
@@ -340,6 +341,7 @@ public class State implements Cloneable, Comparable<State>
 				}
 			}
 		}
+
     	return true;
     }
     

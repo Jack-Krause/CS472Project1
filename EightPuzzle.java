@@ -26,7 +26,7 @@ public class EightPuzzle
 	 */
 	public static String solve8Puzzle(State s0)
 	{
-		// TODO 
+		// TODO
 		
 		// 1) If there exists no solution, return a message that starts with "No solution 
 		//    exists for the following initial state:" and follows with a blank line and 
