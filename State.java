@@ -226,15 +226,27 @@ public class State implements Cloneable, Comparable<State>
 				emptyCell[1] = c;
 				this.board[r][c] = this.board[r+1][c];
 				this.board[r+1][c] = 0;
-				performMove(Move.UP, emptyCell[0], emptyCell[1]);
-				break;
+				return performMove(Move.UP, emptyCell[0], emptyCell[1]);
 			case DBL_DOWN:
 				emptyCell[0] = r-1;
 				emptyCell[1] = c;
 				this.board[r][c] = this.board[r-1][c];
 				this.board[r-1][c] = 0;
-				performMove(Move.DOWN, emptyCell[0], emptyCell[1]);
-				break;
+				return performMove(Move.DOWN, emptyCell[0], emptyCell[1]);
+			case DBL_LEFT:
+				emptyCell[0] = r;
+				emptyCell[1] = c+1;
+				this.board[r][c] = this.board[r][c+1];
+				this.board[r][c+1] = 0;
+				return performMove(Move.LEFT, emptyCell[0], emptyCell[1]);
+			case DBL_RIGHT:
+				emptyCell[0] = r;
+				emptyCell[1] = c-1;
+				this.board[r][c] = this.board[r][c-1];
+				this.board[r][c-1] = 0;
+				return performMove(Move.RIGHT, emptyCell[0], emptyCell[1]);
+			default:
+				return emptyCell;
 
 		}
 

@@ -36,4 +36,17 @@ class AllTest {
         assertTrue(sActual.equals(expState));
     }
 
+    @Test
+    void dblDownTest() {
+        int[][] s = {{1, 8, 2}, {7, 5, 3}, {6, 0, 4}};
+        State testState = new State(s);
+
+        int[][] dblDown = {{1, 0, 2}, {7, 8, 3}, {6, 5, 4}};
+        State expState = new State(dblDown);
+
+        State sActual = testState.successorState(Move.DBL_DOWN);
+
+        assertTrue(sActual.equals(expState));
+    }
+
 }
