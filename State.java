@@ -491,8 +491,7 @@ public class State implements Cloneable, Comparable<State>
 	 * 
 	 * @return the Manhattan distance between this state and the goal state. 
 	 */
-	private int computeManhattanDistance()
-	{
+	private int computeManhattanDistance() {
 		// TODO
 		if (this.ManhattanDistance > 0) return this.ManhattanDistance;
 		
@@ -562,11 +561,37 @@ public class State implements Cloneable, Comparable<State>
 	private int computeNumSingleDoubleMoves() {
 		//TODO
 		if (this.numSingleDoubleMoves < 0) {
+			this.numSingleDoubleMoves = 0;
+			int h = this.computeManhattanDistance();
+
 			// idea: use manhattan distance and account for distances that can be covered in two moves
+			for (int r = 0; r < 3; r++) {
+				for (int c = 0; c < 3; c++) {
+					int cell = this.board[r][c];
+
+					if (cell == goalState[r][c]) {
+						continue;
+					}
+
+					if (r == 2 && (this.board[r-1][c] != goalState[r-1][c])) {
+						if (this.isMoveValid(Move.DBL_UP, r, c));
+					}
+
+					if (r < 2 && (this.board[r+1][c] != goalState[r+1][c])) {
+						if (this.isMoveValid(Move.DBL_DOWN, r, c)) h--;
+					}
+
+					if (c < 2 && (this.board[r][c+1] != goalState[r][c+1])) {
+						if (this.isMoveValid(Move.DBL_LEFT, r, c)) h--;
+					}
+
+				}
+			}
 
 		}
 
 		return 0;
 	}
+
 
 }
