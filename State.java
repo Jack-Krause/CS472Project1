@@ -2,6 +2,7 @@ package edu.iastate.cs472.proj1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -188,7 +189,13 @@ public class State implements Cloneable, Comparable<State>
 		if (emptyRow == -1 || emptyColumn == -1) throw new IllegalArgumentException("error: no empty space found");
 		if (! isMoveValid(m, emptyRow, emptyColumn)) throw new IllegalArgumentException("invalid move");
 
-		State s = new State(this.board);
+		State s = new State();
+		s.board = new int[3][3];
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				s.board[i][j] = this.board[i][j];
+			}
+		}
 		s.move = m;
 		s.predecessor = this;
 		s.next = null;
@@ -595,10 +602,10 @@ public class State implements Cloneable, Comparable<State>
 		int s = 0;
 
 		if (this.isMoveValid(Move.DBL_UP, r, c)) {
-			if (! this.isGoalCell(r-1, c)) s++;
+			if (! this.isGoalCell(r+1, c)) s++;
 		}
 		if (this.isMoveValid(Move.DBL_DOWN, r, c)) {
-			if (! this.isGoalCell(r+1, c)) s++;
+			if (! this.isGoalCell(r-1, c)) s++;
 		}
 		if (this.isMoveValid(Move.DBL_LEFT, r, c)) {
 			if (! this.isGoalCell(r, c+1)) s++;

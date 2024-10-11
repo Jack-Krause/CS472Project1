@@ -43,7 +43,7 @@ public class EightPuzzle {
         Heuristic h[] = {Heuristic.TileMismatch, Heuristic.ManhattanDist, Heuristic.DoubleMoveHeuristic};
         String[] moves = new String[3];
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             moves[i] = AStar(s0, h[i]);
         }
 
@@ -78,13 +78,18 @@ public class EightPuzzle {
         OPEN.addState(s0);
         int g_s = 0;
         int h_s = s0.cost();
+        int counter = 0;
 
         while (OPEN.size() > 0) {
             State s = OPEN.remove();
+            System.out.printf("step: %d cost: %d%n", counter, s.cost());
+            counter++;
+
             CLOSE.addState(s);
+
             if (s.isGoalState()) {
                 //TODO: add string
-                return "SUCCESS";
+                return solutionPath(s);
             }
 
             Move[] moves = Move.values();
@@ -95,18 +100,22 @@ public class EightPuzzle {
             }
 
             for (Move m : moves) {
-                System.out.println(m);
 
                 try {
                     State t = s.successorState(m);
+                    System.out.printf("%s: %d %n", m, t.cost());
 
                     if (t != null && !t.equals(s.predecessor)) {
                         int f = t.cost();
 
+                        System.out.println("EQUAL" + (s.equals(t)));
                         State onC = CLOSE.findState(t);
                         State onO = OPEN.findState(t);
+                        System.out.println("onOPEN: " + (onO == null));
+                        System.out.println("onCLOSE: " + (onC == null));
 
                         if (onC == null && onO == null) {
+                            System.out.printf("adding successor OPEN: %s: %d %n" + t.move, t.cost());
                             OPEN.addState(t);
                         } else if (onO != null) {
                             int oldF = onO.cost();
@@ -125,7 +134,8 @@ public class EightPuzzle {
                     }
 
                 } catch (IllegalArgumentException e) {
-                    System.out.println("illegal move, continue");
+                    //System.out.println("illegal move, continue");
+                    System.out.printf("%s: invalid%n", m);
                     continue;
                 }
 
