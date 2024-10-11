@@ -15,14 +15,11 @@ public class PuzzleSolver
 {
 
 	public static void main(String[] args) {
-		int[][] s = {{2, 0, 3}, {1, 8, 4}, {7, 6, 5}};
-		State testState = new State(s);
-		System.out.println(testState.solvable());
+		int[][] test1 = {{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
+		State s = new State(test1);
 
-		testState.successorState(Move.RIGHT);
-		testState.successorState(Move.UP);
-		testState.successorState(Move.LEFT);
-		System.out.println("GOAL " + testState.isGoalState());
+		String res = EightPuzzle.solve8Puzzle(s);
+		System.out.println(res);
 
 	}
 

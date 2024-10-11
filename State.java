@@ -62,7 +62,6 @@ public class State implements Cloneable, Comparable<State>
 	 */
     public State(int[][] board) throws IllegalArgumentException 
     {
-    	// TODO
 		if (board.length != 3 || board[0].length != 3) {
 			throw new IllegalArgumentException("incorrect size");
 		}
@@ -166,7 +165,6 @@ public class State implements Cloneable, Comparable<State>
 		int emptyRow = -1;
 		int emptyColumn = -1;
 
-		//TODO
 		// find location of the empty square
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
@@ -187,13 +185,13 @@ public class State implements Cloneable, Comparable<State>
 		s.previous = null;
 		s.numMoves = this.numMoves + 1;
 
-		System.out.println("before move " + m);
-		s.toString();
+		//System.out.println("before move " + m);
+		//s.toString();
 
 		s.performMove(m, emptyRow, emptyColumn);
 
-		System.out.println("board after move " + m);
-		s.toString();
+		//System.out.println("board after move " + m);
+		//s.toString();
 
     	return s;
     }
@@ -295,7 +293,6 @@ public class State implements Cloneable, Comparable<State>
      */
     public boolean solvable()
     {
-		System.out.println("inversions " + this.inversions());
 		return (this.inversions() % 2 == 1);
     }
 
@@ -367,10 +364,11 @@ public class State implements Cloneable, Comparable<State>
     @Override 
     public String toString()
     {
-		for (int r = 0; r < 3; r++) {
-			StringBuilder strB = new StringBuilder();
+		StringBuilder strB = new StringBuilder();
 
+		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
+
 				int cell = this.board[r][c];
 				strB.append(" ");
 
@@ -383,10 +381,11 @@ public class State implements Cloneable, Comparable<State>
 
 				strB.append(" ");
 			}
-
-			System.out.println(strB.toString());
+			strB.append("\n");
 		}
-    	return null; 
+
+		System.out.println(strB.toString());
+		return strB.toString();
     }
     
     
@@ -456,8 +455,8 @@ public class State implements Cloneable, Comparable<State>
     @Override
     public int compareTo(State s)
     {
-    	// TODO 
-    	return 0; 
+		if (this.cost() == s.cost()) return 0;
+		return (this.cost() > s.cost()) ? 1 : -1;
     }
     
 
@@ -492,7 +491,6 @@ public class State implements Cloneable, Comparable<State>
 	 * @return the Manhattan distance between this state and the goal state. 
 	 */
 	private int computeManhattanDistance() {
-		// TODO
 		if (this.ManhattanDistance > 0) return this.ManhattanDistance;
 		
 		int dist = 0;
@@ -559,7 +557,6 @@ public class State implements Cloneable, Comparable<State>
 	 *         single or double, which will take this state to the goal state.
 	 */
 	private int computeNumSingleDoubleMoves() {
-		//TODO
 		int[] emptyCell = {-1, -1};
 
 		for (int i = 0; i < 3; i++) {
@@ -572,7 +569,7 @@ public class State implements Cloneable, Comparable<State>
 		}
 
 		if (emptyCell[0] < 0 && emptyCell[1] < 0) {
-			return Integer.MAX_VALUE;
+			return 0;
 		}
 
 		int h = this.computeManhattanDistance();
