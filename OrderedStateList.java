@@ -130,8 +130,17 @@ public class OrderedStateList
 	   */
 	  public State remove()
 	  {
-		  // TODO
-		  return null; 
+		  State toRemove = head.next;
+
+		  if (toRemove == head) return null;
+
+		  head.next = toRemove.next;
+		  toRemove.next.previous = head;
+		  toRemove.next = null;
+		  toRemove.previous = null;
+
+		  size--;
+		  return toRemove;
 	  }
 	  
 	  
@@ -150,8 +159,9 @@ public class OrderedStateList
 	   */
 	  private int compareStates(State s1, State s2)
 	  {
-		  // TODO 
-		  
-		  return 0; 
+		  if (this.isOPEN) return s1.compareTo(s2);
+
+		  StateComparator sc = new StateComparator();
+		  return sc.compare(s1, s2);
 	  }
 }
