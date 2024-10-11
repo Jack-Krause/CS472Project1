@@ -1,6 +1,9 @@
 package edu.iastate.cs472.proj1;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+
+import static java.lang.System.in;
 
 /**
  *  
@@ -79,9 +82,59 @@ public class EightPuzzle
 		// Implement the algorithm described in Section 3 to solve the puzzle. 
 		// Once a goal state s is reached, call solutionPath(s) and return the solution string.
 		OPEN.addState(s0);
-			
-		
-		return null; 
+		int g_s= 0;
+		int h_s = s0.cost();
+
+		while (OPEN.size() > 0) {
+			State s = OPEN.remove();
+			CLOSE.addState(s);
+			if (s.isGoalState()) {
+				//TODO: add string
+				return "SUCCESS";
+			}
+
+			Move[] moves = Move.values();
+			Move[] usableMoves = {Move.UP, Move.DOWN, Move.LEFT, Move.RIGHT};
+
+			if (h == Heuristic.DoubleMoveHeuristic) {
+				usableMoves = moves;
+			}
+
+			for (Move m: moves) {
+				System.out.println(m);
+				State t = s.successorState(m);
+
+				if (! t.equals(s.predecessor)) {
+					int f = t.cost();
+
+					State onC = CLOSE.findState(t);
+					State onO = OPEN.findState(t);
+
+					if (onC == null && onO == null) {
+						OPEN.addState(t);
+					} else if (onO != null) {
+						int oldF = onO.cost();
+
+						if (f < oldF) {
+							onO.predecessor = s;
+						}
+					} else {
+						int oldF = onC.cost();
+
+						if (f < oldF) {
+							OPEN.addState(onC);
+							onC.predecessor = s;
+						}
+					}
+
+				}
+			}
+
+		}
+
+
+
+		return null;
 						
 	}
 	
