@@ -89,6 +89,9 @@ public class EightPuzzle {
 
             if (s.isGoalState()) {
                 //TODO: add string
+                System.out.println("----solution found!----");
+                s0.predecessor = s;
+                s.next = s0;
                 return solutionPath(s);
             }
 
@@ -115,7 +118,7 @@ public class EightPuzzle {
                         System.out.println("onCLOSE: " + (onC == null));
 
                         if (onC == null && onO == null) {
-                            System.out.printf("adding successor OPEN: %s: %d %n" + t.move, t.cost());
+                            System.out.printf("adding successor OPEN: %s: %d %n", t.move, t.cost());
                             OPEN.addState(t);
                         } else if (onO != null) {
                             int oldF = onO.cost();
@@ -135,7 +138,7 @@ public class EightPuzzle {
 
                 } catch (IllegalArgumentException e) {
                     //System.out.println("illegal move, continue");
-                    System.out.printf("%s: invalid%n", m);
+                    System.out.printf("%s: invalid %n", m);
                     continue;
                 }
 
@@ -144,7 +147,7 @@ public class EightPuzzle {
 
         }
 
-
+        System.out.println("----end of A*----");
         return null;
 
     }
@@ -166,8 +169,22 @@ public class EightPuzzle {
      */
     private static String solutionPath(State goal) {
         // TODO
+        StringBuilder sb = new StringBuilder();
 
-        return null;
+        //start at head, traverse back to goal
+        State current = goal.next;
+
+        while (current.next != goal) {
+            sb.append(current.numMoves);
+            sb.append(current.numMoves);
+            sb.append(": ");
+            sb.append(current.move);
+            sb.append(current.toString());
+            sb.append("\n");
+            current = current.next;
+        }
+
+        return sb.toString();
     }
 
 
