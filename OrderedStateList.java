@@ -38,17 +38,16 @@ public class OrderedStateList
 	   */
 	  public OrderedStateList(Heuristic h, boolean isOpen)
 	  {
-		  //	TODO
-		  State.heu = h;   // initialize heuristic used for evaluating all State objects. 
-
+		  State.heu = h;   // initialize heuristic used for evaluating all State objects.
+		  this.head = new State();
+		  this.isOPEN = isOpen;
+		  this.size = 0;
 	  }
-
 	  
 	  public int size()
 	  {
 		  return size; 
 	  }
-	  
 	  
 	  /**
 	   * A new state is added to the sorted list.  Traverse the list starting at head.  Stop 
@@ -61,7 +60,18 @@ public class OrderedStateList
 	   */
 	  public void addState(State s)
 	  {
-		  // TODO 
+		  State temp = head.next;
+
+		  while (temp != head && s.compareTo(temp) > 0) {
+			  temp = temp.next;
+		  }
+
+		  s.next = temp;
+		  s.previous = temp.previous;
+		  temp.previous.next = s;
+		  temp.previous = s;
+
+		  size++;
 	  }
 	  
 	  
@@ -77,7 +87,16 @@ public class OrderedStateList
 	   */
 	  public State findState(State s)
 	  {
-		  // TODO 
+		  State temp = head.next;
+
+		  while (temp != head && !(s.equals(temp))) {
+			  temp = temp.next;
+		  }
+
+		  if (s.equals(temp)) {
+			  return temp;
+		  }
+
 		  return null; 
 	  }
 	  
@@ -91,7 +110,15 @@ public class OrderedStateList
 	   */
 	  public void removeState(State s) throws IllegalStateException
 	  {
-		  // TODO 
+		  State toRemove = this.findState(s);
+		  if (toRemove == null) throw new IllegalStateException("state not found");
+
+		  toRemove.previous.next = toRemove.next;
+		  toRemove.next.previous = toRemove.previous;
+		  toRemove.next = null;
+		  toRemove.previous = null;
+
+		  this.size--;
 	  }
 	  
 	  

@@ -46,6 +46,15 @@ public class State implements Cloneable, Comparable<State>
 	private int numSingleDoubleMoves = -1;  // number of single and double moves with each double 
 										    // move counted as one; negative if not computed yet. 
 
+
+	/**
+	 * default constructor for state (primarily used for head of list)
+	 */
+	public State() {
+		this.previous = this;
+		this.next = this;
+		this.predecessor = null;
+	}
 	
 	/**
 	 * Constructor (for the initial state).  
