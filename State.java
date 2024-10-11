@@ -54,6 +54,7 @@ public class State implements Cloneable, Comparable<State>
 		this.previous = this;
 		this.next = this;
 		this.predecessor = null;
+		this.board = new int[][] {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
 	}
 	
 	/**
@@ -420,10 +421,13 @@ public class State implements Cloneable, Comparable<State>
     @Override 
     public boolean equals(Object o)
     {
-		o = (State)o;
+		if (o == null || !(o instanceof State)) return false;
+
+		State s = (State) o;
+
 		for (int c = 0; c < 3; c++) {
 			for (int r = 0; r < 3; r++) {
-				if (this.board[r][c] != ((State) o).board[r][c]) {
+				if (this.board[r][c] != s.board[r][c]) {
 					return false;
 				}
 			}
