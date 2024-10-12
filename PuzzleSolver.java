@@ -9,7 +9,7 @@ import static java.lang.System.exit;
 
 /**
  *  
- * @author
+ * @author Jack Krause
  *
  */
 
@@ -29,7 +29,6 @@ public class PuzzleSolver
 
 		String res = EightPuzzle.solve8Puzzle(s);
 		System.out.println(res);
-
 	}
 
 

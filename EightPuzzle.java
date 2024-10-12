@@ -42,12 +42,11 @@ public class EightPuzzle {
 
         //TODO: change this
         for (int i = 0; i < 1; i++) {
-            moves[i] += AStar(s0, h[i]);
+            moves[i] = AStar(s0, h[i]);
         }
 
         // 3) Combine the three solution strings into one that would print out in the
         //    output format specified in Section 6 of the project description.
-
         return moves[0];
     }
 
@@ -83,7 +82,7 @@ public class EightPuzzle {
 
             if (s.isGoalState()) {
                 StringBuilder sb = new StringBuilder();
-
+                sb.append("\n");
                 sb.append(s.numMoves);
 
                 if (h == Heuristic.TileMismatch) sb.append(" moves in total (heuristic: number of mismatched tiles)");
@@ -141,8 +140,8 @@ public class EightPuzzle {
 
         }
 
+        System.out.println("internal ERROR, program did not find a solution or correctly identify unsolvable s0 state");
         return null;
-
     }
 
 
