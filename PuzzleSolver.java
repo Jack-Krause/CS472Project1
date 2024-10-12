@@ -28,7 +28,7 @@ public class PuzzleSolver
 		}
 
 		String res = EightPuzzle.solve8Puzzle(s);
-		System.out.println("solve8puzzle result: " + res);
+		System.out.println(res);
 
 	}
 

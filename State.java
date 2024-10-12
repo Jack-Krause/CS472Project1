@@ -401,7 +401,7 @@ public class State implements Cloneable, Comparable<State>
 			strB.append("\n");
 		}
 
-		System.out.println(strB.toString());
+//		System.out.println(strB.toString());
 		return strB.toString();
     }
     

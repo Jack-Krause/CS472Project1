@@ -25,8 +25,6 @@ public class EightPuzzle {
      * @return a string specified in the javadoc below
      */
     public static String solve8Puzzle(State s0) {
-        // TODO
-
         // 1) If there exists no solution, return a message that starts with "No solution
         //    exists for the following initial state:" and follows with a blank line and
         //    then what would be the output from a call s0.toString(). See the end of
@@ -43,14 +41,15 @@ public class EightPuzzle {
         Heuristic h[] = {Heuristic.TileMismatch, Heuristic.ManhattanDist, Heuristic.DoubleMoveHeuristic};
         String[] moves = new String[3];
 
+        //TODO: change this
         for (int i = 0; i < 1; i++) {
-            moves[i] = AStar(s0, h[i]);
+            moves[i] += AStar(s0, h[i]);
         }
 
         // 3) Combine the three solution strings into one that would print out in the
         //    output format specified in Section 6 of the project description.
 
-        return null;
+        return moves[0];
     }
 
 
@@ -65,9 +64,6 @@ public class EightPuzzle {
      * @return solution string
      */
     public static String AStar(State s0, Heuristic h) {
-
-        // TODO
-
         // Initialize the two lists used by the algorithm.
         OrderedStateList OPEN = new OrderedStateList(h, true);
         OrderedStateList CLOSE = new OrderedStateList(h, false);
@@ -88,11 +84,14 @@ public class EightPuzzle {
             CLOSE.addState(s);
 
             if (s.isGoalState()) {
-                //TODO: add string
-                System.out.println("----solution found!----");
-                s0.predecessor = s;
-                s.next = s0;
-                return solutionPath(s);
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(s.numMoves);
+                sb.append(" moves in total (heuristic: ");
+                sb.append(h);
+                sb.append(")\n");
+                sb.append(solutionPath(s));
+                return sb.toString();
             }
 
             Move[] moves = Move.values();
@@ -102,7 +101,7 @@ public class EightPuzzle {
                 usableMoves = moves;
             }
 
-            for (Move m : moves) {
+            for (Move m : usableMoves) {
 
                 try {
                     State t = s.successorState(m);
@@ -168,20 +167,26 @@ public class EightPuzzle {
      * @return
      */
     private static String solutionPath(State goal) {
-        // TODO
         StringBuilder sb = new StringBuilder();
 
         //start at head, traverse back to goal
-        State current = goal.next;
+        State current = goal;
 
-        while (current.next != goal) {
-            sb.append(current.numMoves);
-            sb.append(current.numMoves);
-            sb.append(": ");
-            sb.append(current.move);
-            sb.append(current.toString());
-            sb.append("\n");
-            current = current.next;
+        while (current.predecessor != null) {
+//            sb.append(current.numMoves);
+//            sb.append(": ");
+//            sb.append(current.move);
+//            sb.append("\n");
+//            sb.append(current.toString());
+//            sb.append("\n");
+
+            sb.insert(0, current.toString());
+            sb.insert(0, "\n");
+            sb.insert(0, current.move);
+            sb.insert(0, "\n");
+//            sb.insert(0, current.numMoves);
+
+            current = current.predecessor;
         }
 
         return sb.toString();
