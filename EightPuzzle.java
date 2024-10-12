@@ -29,7 +29,6 @@ public class EightPuzzle {
         //    exists for the following initial state:" and follows with a blank line and
         //    then what would be the output from a call s0.toString(). See the end of
         //    Section 6 in the project description for an example.
-        System.out.println("8 puzzle is solvable: " + s0.solvable());
 
         if (!s0.solvable()) {
             return "No solution exists for the following initial state:\n" + s0.toString();
@@ -78,19 +77,21 @@ public class EightPuzzle {
 
         while (OPEN.size() > 0) {
             State s = OPEN.remove();
-            System.out.printf("step: %d cost: %d%n", counter, s.cost());
             counter++;
 
             CLOSE.addState(s);
 
             if (s.isGoalState()) {
-
                 StringBuilder sb = new StringBuilder();
+
                 sb.append(s.numMoves);
-                sb.append(" moves in total (heuristic: ");
-                sb.append(h);
-                sb.append(")\n");
+
+                if (h == Heuristic.TileMismatch) sb.append(" moves in total (heuristic: number of mismatched tiles)");
+                else if (h == Heuristic.ManhattanDist) sb.append(" moves in total (heuristic: the Manhattan distance)");
+                else sb.append(" moves in total (heuristic: double moves allowed)");
+
                 sb.append(solutionPath(s));
+
                 return sb.toString();
             }
 
@@ -105,19 +106,14 @@ public class EightPuzzle {
 
                 try {
                     State t = s.successorState(m);
-                    System.out.printf("%s: %d %n", m, t.cost());
 
                     if (t != null && !t.equals(s.predecessor)) {
                         int f = t.cost();
 
-                        System.out.println("EQUAL" + (s.equals(t)));
                         State onC = CLOSE.findState(t);
                         State onO = OPEN.findState(t);
-                        System.out.println("onOPEN: " + (onO == null));
-                        System.out.println("onCLOSE: " + (onC == null));
 
                         if (onC == null && onO == null) {
-                            System.out.printf("adding successor OPEN: %s: %d %n", t.move, t.cost());
                             OPEN.addState(t);
                         } else if (onO != null) {
                             int oldF = onO.cost();
@@ -136,9 +132,8 @@ public class EightPuzzle {
                     }
 
                 } catch (IllegalArgumentException e) {
-                    //System.out.println("illegal move, continue");
-                    System.out.printf("%s: invalid %n", m);
-                    continue;
+                    // continue. these exceptions are expected and will be numerous
+                    // System.out.println("handled exception. No problems, program continues as planned " + e.getMessage());
                 }
 
 
@@ -146,7 +141,6 @@ public class EightPuzzle {
 
         }
 
-        System.out.println("----end of A*----");
         return null;
 
     }
@@ -173,18 +167,10 @@ public class EightPuzzle {
         State current = goal;
 
         while (current.predecessor != null) {
-//            sb.append(current.numMoves);
-//            sb.append(": ");
-//            sb.append(current.move);
-//            sb.append("\n");
-//            sb.append(current.toString());
-//            sb.append("\n");
-
             sb.insert(0, current.toString());
             sb.insert(0, "\n");
             sb.insert(0, current.move);
             sb.insert(0, "\n");
-//            sb.insert(0, current.numMoves);
 
             current = current.predecessor;
         }

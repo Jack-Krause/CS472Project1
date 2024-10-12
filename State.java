@@ -202,13 +202,9 @@ public class State implements Cloneable, Comparable<State>
 		s.previous = null;
 		s.numMoves = this.numMoves + 1;
 
-		//System.out.println("before move " + m);
-		//s.toString();
 
 		s.performMove(m, emptyRow, emptyColumn);
 
-		//System.out.println("board after move " + m);
-		//s.toString();
 
     	return s;
     }
@@ -401,7 +397,6 @@ public class State implements Cloneable, Comparable<State>
 			strB.append("\n");
 		}
 
-//		System.out.println(strB.toString());
 		return strB.toString();
     }
     
