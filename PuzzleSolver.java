@@ -29,7 +29,13 @@ public class PuzzleSolver
 
 		String res = EightPuzzle.solve8Puzzle(s);
 		System.out.println(res);
-	}
 
+
+		int[][] noSolArr = {{4, 1, 2}, {5, 3, 0}, {8, 6, 7}};
+		State sNoSol = new State(noSolArr);
+
+		String failedRes = EightPuzzle.solve8Puzzle(sNoSol);
+		System.out.println(failedRes);
+	}
 
 }
