@@ -6,7 +6,7 @@ import java.util.Arrays;
 import static java.lang.System.in;
 
 /**
- * @author
+ * @author Jack Krause
  */
 
 public class EightPuzzle {
