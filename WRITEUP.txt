@@ -1,0 +1,16 @@
+A writeup that clearly describes your admissible heuristic function ℎ3 employed to solve
+the 8-puzzle optimally when single moves and double moves are all considered. Include
+your reasoning why the function is admissible
+
+This h3 function accounts for the program using double moves.
+It backs on the idea of using the Manhattan distance heuristic,
+but lowers the cost of using double moves.
+To do this, the h-function subtracts 1 for the cost when a possible double
+move is found.
+
+To locate these double moves, the algorithm checks for two adjacent cells which are not in
+their goal location.
+
+This heuristic is admissible because it does not overestimate the cost of a move.
+How? This is because when double moves are possible, a cell will never be more than it's
+(modified) Manhattan distance from its goal.

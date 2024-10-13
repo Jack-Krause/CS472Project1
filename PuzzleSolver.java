@@ -16,11 +16,17 @@ import static java.lang.System.exit;
 public class PuzzleSolver 
 {
 
+	/**
+	 * NOTE TO USER: please change the string where noted to try different input file.
+	 * Also, feel free to insert states manually
+	 */
 	public static void main(String[] args) {
-		int[][] test1 = {{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
+		// User can also manually create states, such as the following:
+		//int[][] test1 = {{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
 		State s = new State();
 
 		try {
+			// change this string (inputFileName) as needed
 			s = new State("8puzzle.txt");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
