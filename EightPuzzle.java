@@ -40,7 +40,6 @@ public class EightPuzzle {
         Heuristic[] h = {Heuristic.TileMismatch, Heuristic.ManhattanDist, Heuristic.DoubleMoveHeuristic};
         String[] moves = new String[3];
 
-        //TODO: change this
         for (int i = 0; i < h.length; i++) {
             moves[i] = AStar(s0, h[i]);
         }
